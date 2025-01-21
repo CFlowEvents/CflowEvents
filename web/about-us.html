@@ -49,6 +49,47 @@
             padding: 10px 20px;
         }
 
+        /* Navigation Menu Styling */
+        .menu-icon {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .menu-list {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 200px;
+            background-color: black;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 9;
+            padding-top: 50px;
+            text-align: left;
+        }
+
+        .menu-list a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            border-bottom: 1px solid white;
+        }
+
+        .menu-list a:hover {
+            background-color: #f0a500;
+        }
+
+        .menu-list.show {
+            display: block;
+        }
+
         /* Content Styling */
         .content {
             margin: 20px auto;
@@ -105,6 +146,15 @@
 <body>
     <div class="header"></div>
 
+    <!-- Menu Button -->
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+    <!-- Menu List -->
+    <div class="menu-list" id="menu-list">
+        <a href="index.html">Home</a>
+        <a href="about-us.html">About Us</a>
+    </div>
+
     <div class="title">
         <h1>About Us</h1>
     </div>
@@ -127,7 +177,9 @@
     <script>
         const video = document.getElementById('about-video');
         const muteButton = document.getElementById('mute-button');
+        const menuList = document.getElementById('menu-list');
 
+        // Toggle mute for the video
         function toggleMute() {
             if (video.muted) {
                 video.muted = false;
@@ -137,6 +189,18 @@
                 muteButton.textContent = 'Unmute';
             }
         }
+
+        // Toggle menu visibility
+        function toggleMenu() {
+            menuList.classList.toggle('show');
+        }
+
+        // Close menu if clicked outside
+        window.addEventListener('click', function (event) {
+            if (!event.target.closest('.menu-icon') && !event.target.closest('#menu-list')) {
+                menuList.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>
