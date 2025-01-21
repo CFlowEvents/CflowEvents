@@ -270,10 +270,23 @@
     <!-- JavaScript for menu toggle and outside click -->
     <script>
         // Toggle menu visibility
-        function toggleMenu() {
-            var menu = document.getElementById("menu-list");
-            menu.classList.toggle("show");
-        }
+       // Function to toggle the visibility of the menu
+function toggleMenu() {
+    var menu = document.getElementById("menu-list");
+    menu.classList.toggle("show");
+}
+
+// Close the menu when clicking outside of the menu bar
+document.addEventListener('click', function(event) {
+    var menu = document.getElementById("menu-list");
+    var menuIcon = document.querySelector('.menu-icon');
+
+    // If the clicked element is not the menu icon and not inside the menu
+    if (!menu.contains(event.target) && !menuIcon.contains(event.target)) {
+        menu.classList.remove('show');  // Close the menu
+    }
+});
+
 
         // Toggle contact options visibility
         function toggleContactOptions() {
