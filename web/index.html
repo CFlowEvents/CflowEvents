@@ -133,59 +133,124 @@
             text-decoration: underline;
         }
 
+        /* Navbar Styles */
+        .navbar {
+            position: relative;
+            background-color: black;
+            padding: 10px;
+        }
+
+        /* Menu Icon (Three Dots) */
+        .menu-icon {
+            font-size: 30px;
+            position: absolute;
+            top: 10px;
+            right: 20px; /* Position the 3 dots on the right */
+            cursor: pointer;
+            z-index: 1; /* Ensure it's above other elements */
+        }
+
+        /* Menu List (Dropdown) */
+        .menu-list {
+            display: none;
+            position: absolute;
+            top: 50px; /* Position below the 3 dots */
+            right: 20px;
+            background-color: white;
+            border-radius: 5px;
+            width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .menu-list a {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: black;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .menu-list a:hover {
+            background-color: #f0a500;
+        }
+
+        .menu-list.show {
+            display: block;
+        }
+
         /* Responsive Styles */
         @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                left: 0;
+            .menu-icon {
+                font-size: 25px;
             }
 
-            .content {
-                margin-left: 0;
+            .title h1 {
+                font-size: 2.5rem;
+            }
+
+            .buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .buttons a {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title h1 {
+                font-size: 2rem;
+            }
+
+            .header {
+                height: 200px;
+            }
+
+            .buttons a {
+                padding: 12px 30px;
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Button to open the sidebar -->
-    <button class="open-btn" onclick="toggleSidebar()">&#9776;</button>
-
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar">
-        <a href="index.html">Index</a>
-        <a href="about-us.html">About Us</a>
+    <!-- Navbar -->
+    <div class="navbar">
+        <!-- Menu Icon (Three Dots) -->
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <!-- Menu List (Dropdown) -->
+        <div class="menu-list" id="menu-list">
+            <a href="index.html">Index</a>
+            <a href="about-us.html">About Us</a>
+        </div>
     </div>
 
     <!-- Main Content -->
-    <div class="content">
-        <div class="header"></div>
-        <div class="title">
-            <h1>Event Planning</h1>
-        </div>
+    <div class="header"></div>
+    <div class="title">
+        <h1>Event Planning</h1>
+    </div>
 
-        <div class="buttons">
-            <a href="https://wa.me/96181282320" target="_blank" class="whatsapp-btn">WhatsApp</a>
-            <a href="https://www.instagram.com/cflow.events?igsh=cTYzd2E1aDV1ZjJz&utm_source=qr" target="_blank">Instagram</a>
-            <a href="https://www.facebook.com/p/Cflowevents-61572102941441/?mibextid=wwXIfr&mibextid=wwXIfr" target="_blank">Facebook</a>
-            <a href="https://www.tiktok.com/@cflow.events?_t=ZS-8tFYCBH17sv&_r=1" target="_blank">TikTok</a>
-        </div>
+    <div class="buttons">
+        <a href="https://wa.me/96181282320" target="_blank" class="whatsapp-btn">WhatsApp</a>
+        <a href="https://www.instagram.com/cflow.events?igsh=cTYzd2E1aDV1ZjJz&utm_source=qr" target="_blank">Instagram</a>
+        <a href="https://www.facebook.com/p/Cflowevents-61572102941441/?mibextid=wwXIfr&mibextid=wwXIfr" target="_blank">Facebook</a>
+        <a href="https://www.tiktok.com/@cflow.events?_t=ZS-8tFYCBH17sv&_r=1" target="_blank">TikTok</a>
+    </div>
 
-        <div class="footer">
-            <p>© 2025 Cflow event Planning. All Rights Reserved. | <a href="#">Privacy Policy</a></p>
-        </div>
+    <div class="footer">
+        <p>© 2025 Cflow event Planning. All Rights Reserved. | <a href="#">Privacy Policy</a></p>
     </div>
 
     <script>
-        // JavaScript function to toggle the sidebar
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            if (sidebar.style.left === "0px") {
-                sidebar.style.left = "-250px";
-            } else {
-                sidebar.style.left = "0";
-            }
+        // JavaScript function to toggle the menu visibility
+        function toggleMenu() {
+            var menu = document.getElementById("menu-list");
+            menu.classList.toggle("show");
         }
     </script>
 </body>
