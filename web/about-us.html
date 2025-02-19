@@ -95,27 +95,51 @@
         }
 
         /* Modern Buttons */
-        .controls {
-            margin-top: 10px;
-        }
+       /* Video Container Styling */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 60vh; /* Set a default height for the video */
+    overflow: hidden; /* Ensure no overflow happens */
+    background-color: black; /* Default background */
+}
 
-        .controls button {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            padding: 12px 24px;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease-in-out;
-            backdrop-filter: blur(8px);
-        }
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video covers the container */
+}
 
-        .controls button:hover {
-            background: rgba(255, 255, 255, 0.5);
-            color: black;
-            border: 1px solid white;
-        }
+/* Controls Styling */
+.controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 10;
+    padding: 10px;
+}
+
+.controls button {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    backdrop-filter: blur(8px);
+}
+
+.controls button:hover {
+    background: rgba(255, 255, 255, 0.5);
+    color: black;
+    border: 1px solid white;
+}
+
     </style>
 </head>
 <body class="fade-in">
