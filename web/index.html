@@ -8,15 +8,17 @@
         /* General Body Styling */
         body {
             margin: 0;
-            font-family: 'Georgia', serif;
+            font-family: 'Arial', sans-serif;
             background-color: black;
             color: white;
             text-align: center;
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 16px;
         }
 
-        /* Header Section with Full-Width Image */
+        /* Logo Section */
         .header {
-            position: relative;
             width: 100%;
             height: 40vh;
             background: url('images/logo.jpg') no-repeat center center;
@@ -24,180 +26,42 @@
             background-position: center center;
         }
 
+        /* Title Section */
         .title {
-            margin-top: 20px;
+            margin-top: 60px;
         }
 
         .title h1 {
             color: white;
-            font-family: 'Georgia', serif;
             font-size: 3rem;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-            margin: 0;
-            padding: 10px 20px;
-        }
-
-        /* Buttons Section */
-        .buttons {
-            margin-top: 40px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        /* Add fade-in animation */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .buttons a {
-            display: inline-block;
-            margin: 15px;
-            padding: 15px 40px;
-            text-decoration: none;
-            color: black;
-            background: white;
-            border: 2px solid white;
-            border-radius: 5px;
-            font-size: 18px;
             font-weight: bold;
             text-transform: uppercase;
-            transition: all 0.3s ease-in-out;
-            animation: fadeIn 3s ease-out forwards; /* Apply the fade-in animation */
-            opacity: 0;
-        }
-
-/* Order of Buttons with Correct Delays */
-.buttons a:nth-child(1) { animation-delay: 0s; }  /* Contact first */
-.buttons a:nth-child(2) { animation-delay: 0.5s; }  /* Instagram second */
-.buttons a:nth-child(3) { animation-delay: 1s; }  /* TikTok third */
-.buttons a:nth-child(4) { animation-delay: 1.5s; }  /* Facebook last */
-
-        /* Hover Effect */
-        .buttons a:hover {
-            background: black;
-            color: white;
-            border: 2px solid white;
-            transform: translateY(-3px);
-        }
-
-        /* WhatsApp Button Styling */
-        .whatsapp-btn {
-            padding: 15px 40px;
-            font-size: 18px;
-            color: black;
-            background: white;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-            transition: all 0.3s ease;
-            border: 2px solid white;
-            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
-        }
-
-        .whatsapp-btn:hover {
-            background: black;
-            color: white;
-            border: 2px solid white;
-            box-shadow: 0 0 15px rgba(204, 184, 118, 0.9);
-            transform: translateY(-3px);
-        }
-
-        /* Contact Options (Call and WhatsApp) Buttons */
-        .contact-options a {
-            padding: 12px 20px;
-            text-decoration: none;
-            color: white; /* Set text color to white */
-            background-color: black; /* Set background color to black */
-            display: block;
-            margin-bottom: 10px;
-            text-align: center;
-            border-radius: 5px;
-            border: 2px solid white; /* Add a white border */
-            transition: background-color 0.3s, border-color 0.3s; /* Smooth transition for hover effect */
-        }
-
-        .contact-options a:hover {
-            background-color: white; /* Change background to white on hover */
-            color: black; /* Change text color to black on hover */
-            border-color: black; /* Change border color to black on hover */
-        }
-
-        /* Contact Dropdown List Styling */
-       /* Wrap the Contact button and options */
-.contact-container {
-    position: relative; /* Ensures dropdown positions relative to this div */
-    display: inline-block;
-}
-
-/* Contact options dropdown */
-.contact-options {
-    display: none;
-    position: absolute;
-    background-color: white;
-    color: black;
-    width: 200px;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    flex-direction: column;
-    text-align: center;
-    
-    /* Position directly below the Contact button */
-    top: calc(100% + 5px);
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-
-        /* Footer Styling */
-        .footer {
-            margin-top: 50px;
-            padding: 20px;
-            font-size: 14px;
-            color: #555555;
-        }
-
-        .footer a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Navbar Styles */
-        .navbar {
-            position: relative;
-            background-color: black;
-            padding: 10px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            margin: 0;
+            padding: 20px 40px;
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         /* Menu Icon (Three Dots) */
         .menu-icon {
             font-size: 30px;
             position: fixed;
-            top: 10px;
+            top: 20px;
             left: 20px;
             cursor: pointer;
             z-index: 20;
-            background-color: tranparent;
+            background-color: transparent;
             color: white;
             padding: 10px 15px;
             border-radius: 5px;
             font-weight: bold;
             transition: background-color 0.3s, color 0.3s;
-            background-color: black;
+        }
+
+        .menu-icon:hover {
+            background-color: #f0a500;
+            color: black;
         }
 
         /* Updated Menu List (Dropdown) */
@@ -226,6 +90,8 @@
             text-decoration: none;
             padding: 15px 20px;
             font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
             border-bottom: 1px solid white;
             transition: background-color 0.3s;
         }
@@ -234,149 +100,209 @@
             background-color: #f0a500;
         }
 
-        /* Content Styling */
+        /* Fade-in Content Styling */
         .content {
             margin: 20px auto;
             width: 90%;
-            max-width: 800px;
+            max-width: 1000px;
             text-align: left;
+            padding-bottom: 50px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Content Headings */
+        .content h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: bold;
         }
 
         .content p {
-            font-size: 1.2rem;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            line-height: 1.8;
             margin-bottom: 20px;
+            letter-spacing: 0.5px;
         }
 
-        .menu-list.show {
-            display: block;
+        .content ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .content ul li {
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .content ul li:hover {
+            background-color: rgba(240, 165, 0, 0.3);
+        }
+
+        /* Footer Styling */
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 14px;
+            color: #555555;
+            text-align: center;
+            background-color: black;
+            box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Dropdown List Styling */
+        .contact-container {
+            position: relative;
+            display: inline-block;
         }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
             .menu-icon {
                 font-size: 25px;
+                top: 15px;
+                left: 15px;
             }
 
             .title h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
+                padding: 0 10px;
             }
 
-            .buttons {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+            .content {
+                padding: 10px;
             }
 
-            .buttons a {
-                padding: 12px 30px;
-                font-size: 16px;
+            .content h2 {
+                font-size: 1.8rem;
+            }
+
+            .content p {
+                font-size: 1rem;
+            }
+
+            .content ul li {
+                font-size: 1rem;
             }
         }
 
         @media (max-width: 480px) {
+            .menu-list {
+                width: 200px;
+            }
+
             .title h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                padding: 0 10px;
             }
 
-            .header {
-                height: 200px;
+            .content {
+                padding: 0 5px;
             }
 
-            .buttons a {
-                padding: 12px 30px;
-                font-size: 16px;
+            .footer {
+                font-size: 12px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <!-- Menu Icon (Three Dots) -->
-        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-        <!-- Menu List (Dropdown) -->
-        <div class="menu-list" id="menu-list">
-            <a href="index.html">Home</a>
-            <a href="about-us.html">About Us</a>
-			
-        </div>
+    <!-- Logo Section -->
+    <div class="header"></div>
+
+    <!-- Menu Icon and List -->
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <div class="menu-list" id="menu-list">
+        <a href="index.html" onclick="fadeOut()">Home</a>
+        <a href="About-us.html" onclick="fadeOut()">About Us</a>
+        <a href="contact.html" onclick="fadeOut()">Contact Us</a>
     </div>
 
-    <!-- Header -->
-    <div class="header"></div>
+    <!-- Title Section -->
     <div class="title">
         <h1>Event Planning</h1>
     </div>
 
-   <!-- Buttons Section -->
-<div class="buttons">
-    <!-- Contact Button -->
-    <div class="contact-container">
-    <a href="javascript:void(0);" onclick="toggleContactOptions()">Contact</a>
-    
-    <div class="contact-options" id="contact-options">
-        <a href="tel:+96181282320">Call</a>
-        <a href="https://wa.me/96181282320" target="_blank">WhatsApp</a>
+    <!-- Content Section -->
+    <div class="content">
+        <p>At CFlow Event Planning, we take care of your event from start to finish, ensuring a seamless and magical experience. Whether you're dreaming of a grand celebration or an intimate gathering, we tailor everything to fit your budget while delivering exceptional quality and elegance. Our team works closely with you to bring your vision to life, without compromising on the magic of your special day. Here's why you should choose us:</p>
+
+        <h2>Why Choose CFlow Event Planning?</h2>
+        <p>We offer a wide range of services to ensure your event is executed flawlessly, all while respecting your budget. Here's what sets us apart:</p>
+
+        <ul>
+            <li><strong>Expert Planning:</strong> Our team of experienced event planners ensures every detail is meticulously arranged to suit your vision and budget.</li>
+            <li><strong>Personalized Approach:</strong> We customize our services to meet your unique needs, whether it’s a luxurious wedding or a more budget-friendly, intimate gathering.</li>
+            <li><strong>Quality & Elegance:</strong> From the venue to the décor, we ensure that all aspects of your event exude sophistication and style without going over budget.</li>
+            <li><strong>Comprehensive Services:</strong> We provide a full range of services, from catering and photography to entertainment and transportation, ensuring a one-stop solution, designed to be budget-friendly.</li>
+            <li><strong>Attention to Detail:</strong> We focus on the little things that make a big difference, ensuring every aspect of your event runs smoothly and efficiently, all while keeping costs in check.</li>
+            <li><strong>Experienced Vendors:</strong> We work with trusted vendors to bring you the best in food, entertainment, and décor, offering options that cater to your budget.</li>
+            <li><strong>Budget-Friendly:</strong> We pride ourselves on offering competitive pricing and flexible packages that allow us to deliver a memorable experience without compromising on quality.</li>
+            <li><strong>Peace of Mind:</strong> Our professional team handles all logistics, leaving you free to enjoy your special day, knowing that everything is within your planned budget.</li>
+        </ul>
+
+        <h2>Our Services</h2>
+        <p>Our comprehensive event planning services include a variety of budget-conscious options that can be tailored to fit your needs:</p>
+        <ul>
+            <li>Wedding Planning & Coordination</li>
+            <li>Venue Selection</li>
+            <li>Full-Day Photography & Videography</li>
+            <li>Luxury Wedding Cars</li>
+            <li>Catering & Gourmet Menu</li>
+            <li>Live Entertainment & DJs</li>
+            <li>Custom Wedding Décor & Floral Arrangements</li>
+            <li>Website Invitation Cards</li>
+            <li>Photo Booths</li>
+            <li>Pre-Wedding Events</li>
+            <li>And more...</li>
+        </ul>
+
+        <h2>Other Events We Specialize In:</h2>
+        <ul>
+            <li>Engagement Parties</li>
+            <li>Proposals</li>
+            <li>Birthdays</li>
+            <li>First Communions</li>
+            <li>Grand Openings</li>
+            <li>Baptisms</li>
+            <li>And More...</li>
+        </ul>
     </div>
-</div>
-
-    
-    <!-- Social Media Buttons -->
-    <a href="https://www.instagram.com/cflow.events?igsh=cTYzd2E1aDV1ZjJz&utm_source=qr" target="_blank">Instagram</a>
-    <a href="https://www.tiktok.com/@cflow.events?_t=ZS-8tFYCBH17sv&_r=1" target="_blank">TikTok</a>
-    <a href="https://www.facebook.com/p/Cflowevents-61572102941441/?mibextid=wwXIfr&mibextid=wwXIfr" target="_blank">Facebook</a>
-</div>
-
-<!-- Contact Options Dropdown (Moved Outside) -->
-
-
 
     <!-- Footer -->
     <div class="footer">
-        <p>© 2025 Cflow event Planning. All Rights Reserved. | <a href="#">Privacy Policy</a></p>
+        <p>© 2025 CFlow Event Planning. All Rights Reserved. | <a href="#">Privacy Policy</a></p>
     </div>
 
-    <!-- JavaScript for menu toggle and outside click -->
+    <!-- JavaScript for menu toggle -->
     <script>
-        // Toggle menu visibility
         function toggleMenu() {
             var menu = document.getElementById("menu-list");
             menu.classList.toggle("show");
         }
-
-        // Close the menu when clicking outside of the menu bar
-        document.addEventListener('click', function(event) {
-            var menu = document.getElementById("menu-list");
-            var menuIcon = document.querySelector('.menu-icon');
-
-            if (!menu.contains(event.target) && !menuIcon.contains(event.target)) {
-                menu.classList.remove('show');
-            }
-        });
-
-        // Toggle contact options visibility
-        function toggleContactOptions() {
-    var options = document.getElementById("contact-options");
-    
-    // Toggle visibility
-    if (options.style.display === "block") {
-        options.style.display = "none";
-    } else {
-        options.style.display = "block";
-    }
-}
-
-// Close contact options when clicking outside
-document.addEventListener("click", function (event) {
-    var contactOptions = document.getElementById("contact-options");
-    var contactButton = document.querySelector(".contact-container a");
-
-    if (!contactButton.contains(event.target) && !contactOptions.contains(event.target)) {
-        contactOptions.style.display = "none";
-    }
-});
-
     </script>
 </body>
 </html>

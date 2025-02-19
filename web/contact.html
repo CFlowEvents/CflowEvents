@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFlow Event Planning</title>
+    <style>
+        /* General Body Styling */
+        body {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+
+        /* Header Section with Full-Width Image */
+        .header {
+            position: relative;
+            width: 100%;
+            height: 30vh;
+            background: url('images/logo.jpg') no-repeat center center;
+            background-size: contain;
+        }
+
+        .title {
+            margin-top: 20px;
+        }
+
+        .title h1 {
+            color: white;
+            font-family: 'Georgia', serif;
+            font-size: 3rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            margin: 0;
+            padding: 10px 20px;
+        }
+
+        /* Buttons Section */
+        .buttons {
+            margin-top: 40px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* Add fade-in animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .buttons a {
+            display: inline-block;
+            margin: 15px;
+            padding: 15px 40px;
+            text-decoration: none;
+            color: black;
+            background: white;
+            border: 2px solid white;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease-in-out;
+            animation: fadeIn 3s ease-out forwards; /* Apply the fade-in animation */
+            opacity: 0;
+        }
+
+/* Order of Buttons with Correct Delays */
+.buttons a:nth-child(1) { animation-delay: 0s; }  /* Contact first */
+.buttons a:nth-child(2) { animation-delay: 0.5s; }  /* Instagram second */
+.buttons a:nth-child(3) { animation-delay: 1s; }  /* TikTok third */
+.buttons a:nth-child(4) { animation-delay: 1.5s; }  /* Facebook last */
+
+        /* Hover Effect */
+        .buttons a:hover {
+            background: black;
+            color: white;
+            border: 2px solid white;
+            transform: translateY(-3px);
+        }
+
+        /* WhatsApp Button Styling */
+        .whatsapp-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            color: black;
+            background: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .whatsapp-btn:hover {
+            background: black;
+            color: white;
+            border: 2px solid white;
+            box-shadow: 0 0 15px rgba(204, 184, 118, 0.9);
+            transform: translateY(-3px);
+        }
+
+        /* Contact Options (Call and WhatsApp) Buttons */
+        .contact-options a {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: white; /* Set text color to white */
+            background-color: black; /* Set background color to black */
+            display: block;
+            margin-bottom: 10px;
+            text-align: center;
+            border-radius: 5px;
+            border: 2px solid white; /* Add a white border */
+            transition: background-color 0.3s, border-color 0.3s; /* Smooth transition for hover effect */
+        }
+
+        .contact-options a:hover {
+            background-color: white; /* Change background to white on hover */
+            color: black; /* Change text color to black on hover */
+            border-color: black; /* Change border color to black on hover */
+        }
+
+        /* Contact Dropdown List Styling */
+       /* Wrap the Contact button and options */
+.contact-container {
+    position: relative; /* Ensures dropdown positions relative to this div */
+    display: inline-block;
+}
+
+/* Contact options dropdown */
+.contact-options {
+    display: none;
+    position: absolute;
+    background-color: white;
+    color: black;
+    width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    flex-direction: column;
+    text-align: center;
+    
+    /* Position directly below the Contact button */
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+        /* Footer Styling */
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 14px;
+            color: #555555;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: relative;
+            background-color: black;
+            padding: 10px;
+        }
+
+        /* Menu Icon (Three Dots) */
+        .menu-icon {
+            font-size: 30px;
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 20;
+            background-color: tranparent;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: black;
+        }
+
+        /* Updated Menu List (Dropdown) */
+        .menu-list {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background-color: black;
+            box-shadow: 4px 0 6px rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            padding-top: 60px;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(-100%);
+        }
+
+        .menu-list.show {
+            transform: translateX(0);
+        }
+
+        /* Menu Items */
+        .menu-list a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            font-size: 18px;
+            border-bottom: 1px solid white;
+            transition: background-color 0.3s;
+        }
+
+        .menu-list a:hover {
+            background-color: #f0a500;
+        }
+
+        /* Content Styling */
+        .content {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .menu-list.show {
+            display: block;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .menu-icon {
+                font-size: 25px;
+            }
+
+            .title h1 {
+                font-size: 2.5rem;
+            }
+
+            .buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .buttons a {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title h1 {
+                font-size: 2rem;
+            }
+
+            .header {
+                height: 200px;
+            }
+
+            .buttons a {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <!-- Menu Icon (Three Dots) -->
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <!-- Menu List (Dropdown) -->
+        <div class="menu-list" id="menu-list">
+            <a href="index.html">Home</a>
+            <a href="about-us.html">About Us</a>
+			<a href="contact.html">Contact Us</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header"></div>
+    <div class="title">
+        <h1>Event Planning</h1>
+    </div>
+
+   <!-- Buttons Section -->
+<div class="buttons">
+    <!-- Contact Button -->
+    <div class="contact-container">
+    <a href="javascript:void(0);" onclick="toggleContactOptions()">Contact</a>
+    
+    <div class="contact-options" id="contact-options">
+        <a href="tel:+96181282320">Call</a>
+        <a href="https://wa.me/96181282320" target="_blank">WhatsApp</a>
+    </div>
+</div>
+
+    
+    <!-- Social Media Buttons -->
+    <a href="https://www.instagram.com/cflow.events?igsh=cTYzd2E1aDV1ZjJz&utm_source=qr" target="_blank">Instagram</a>
+    <a href="https://www.tiktok.com/@cflow.events?_t=ZS-8tFYCBH17sv&_r=1" target="_blank">TikTok</a>
+    <a href="https://www.facebook.com/p/Cflowevents-61572102941441/?mibextid=wwXIfr&mibextid=wwXIfr" target="_blank">Facebook</a>
+</div>
+
+<!-- Contact Options Dropdown (Moved Outside) -->
+
+
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2025 Cflow event Planning. All Rights Reserved. | <a href="#">Privacy Policy</a></p>
+    </div>
+
+    <!-- JavaScript for menu toggle and outside click -->
+    <script>
+        // Toggle menu visibility
+        function toggleMenu() {
+            var menu = document.getElementById("menu-list");
+            menu.classList.toggle("show");
+        }
+
+        // Close the menu when clicking outside of the menu bar
+        document.addEventListener('click', function(event) {
+            var menu = document.getElementById("menu-list");
+            var menuIcon = document.querySelector('.menu-icon');
+
+            if (!menu.contains(event.target) && !menuIcon.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Toggle contact options visibility
+        function toggleContactOptions() {
+    var options = document.getElementById("contact-options");
+    
+    // Toggle visibility
+    if (options.style.display === "block") {
+        options.style.display = "none";
+    } else {
+        options.style.display = "block";
+    }
+}
+
+// Close contact options when clicking outside
+document.addEventListener("click", function (event) {
+    var contactOptions = document.getElementById("contact-options");
+    var contactButton = document.querySelector(".contact-container a");
+
+    if (!contactButton.contains(event.target) && !contactOptions.contains(event.target)) {
+        contactOptions.style.display = "none";
+    }
+});
+
+    </script>
+</body>
+</html>
