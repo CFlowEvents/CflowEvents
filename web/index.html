@@ -299,6 +299,12 @@
 
     <!-- JavaScript for menu toggle -->
     <script>
+ // Close menu if clicked outside
+        window.addEventListener('click', function (event) {
+            if (!event.target.closest('.menu-icon') && !event.target.closest('#menu-list')) {
+                menuList.classList.remove('show');
+            }
+        });
         function toggleMenu() {
             var menu = document.getElementById("menu-list");
             menu.classList.toggle("show");
