@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Schedule a Meeting</title>
   <style>
+    /* Global styles */
     body {
       margin: 0;
       font-family: 'Georgia', serif;
@@ -128,9 +129,31 @@
       color: #ccc;
     }
 
+    /* Date input fix */
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1em;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    /* Budget range inputs */
+    .budget-range {
+      display: flex;
+      gap: 10px;
+    }
+    .budget-range input {
+      width: 48%;
+    }
+
+    /* Checkbox styles */
     .checkbox-group {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
       margin-top: 30px;
     }
@@ -163,6 +186,12 @@
       color: white;
     }
 
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* Popup Overlay */
     .popup-overlay {
       position: fixed;
       top: 0;
@@ -216,6 +245,59 @@
       background-color: #f0a500;
       color: black;
     }
+
+    /* Media query for mobile responsiveness */
+    @media (max-width: 768px) {
+      form {
+        padding: 20px;
+        margin: 0 15px;
+      }
+
+      .checkbox-group {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      label {
+        font-size: 16px;
+      }
+
+      .menu-icon {
+        font-size: 25px;
+        padding: 10px 15px;
+      }
+
+      h1 {
+        font-size: 1.5em;
+        margin: 30px 15px 15px;
+      }
+
+      input, select, textarea {
+        padding: 12px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 16px;
+      }
+
+      .menu-list a {
+        padding: 18px 20px;
+        font-size: 16px;
+      }
+    }
+
+    /* iOS specific fixes */
+    @supports (-webkit-touch-callout: none) {
+      input, select, textarea {
+        font-size: 16px;
+      }
+      
+      input[type="date"] {
+        min-height: 44px;
+      }
+    }
   </style>
 </head>
 <body class="fade-in">
@@ -257,7 +339,7 @@
     <input type="number" id="guests" name="guests" placeholder="e.g., 150" min="1" required />
 
     <label for="budget">Budget Range (USD)</label>
-    <div style="display: flex; gap: 10px;">
+    <div class="budget-range">
       <input type="number" id="budgetMin" name="budgetMin" placeholder="Min" min="0" required />
       <input type="number" id="budgetMax" name="budgetMax" placeholder="Max" min="0" required />
     </div>
@@ -272,43 +354,66 @@
       <input type="text" id="area" name="area" placeholder="e.g., Byblos, Batroun" />
     </div>
 
-    <button type="submit">Submit Request</button>
+    <button type="submit" id="submitButton">Submit Request</button>
   </form>
 
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-
+  <!-- Load EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  
   <script>
+    // Initialize EmailJS
     (function() {
-      emailjs.init("byCf4TPG5UL7yT0JT"); // Use your EmailJS public key here
+      emailjs.init('byCf4TPG5UL7yT0JT'); // Your public key
+      
+      document.getElementById("meetingForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const submitButton = document.getElementById('submitButton');
+        const originalButtonText = submitButton.textContent;
+        
+        // Show loading state
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+        
+        // Get form data
+        const formData = new FormData(form);
+        const data = {
+          name: formData.get("name"),
+          eventType: formData.get("eventType"),
+          eventDate: formData.get("eventDate"),
+          guests: formData.get("guests"),
+          budgetMin: formData.get("budgetMin"),
+          budgetMax: formData.get("budgetMax"),
+          needLocation: formData.get("needLocation") ? "Yes" : "No",
+          area: formData.get("area") || "N/A"
+        };
+
+        // Validate required fields
+        if (!data.name || !data.eventType || !data.eventDate || !data.guests || !data.budgetMin || !data.budgetMax) {
+          alert("Please fill out all required fields.");
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+          return;
+        }
+
+        // Send email
+        emailjs.send("service_l10gqs8", "template_f0z1wbt", data)
+          .then(function(response) {
+            console.log("Email sent successfully:", response);
+            form.reset();
+            document.getElementById('areaInput').style.display = 'none';
+            document.getElementById('popupOverlay').style.display = 'flex';
+          }, function(error) {
+            console.log("Error sending email:", error);
+            alert("There was an error sending your request. Please try again later.");
+          })
+          .finally(function() {
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
+          });
+      });
     })();
-
-    document.getElementById("meetingForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const form = e.target;
-      const formData = new FormData(form);
-
-      const data = {
-        name: formData.get("name"),
-        eventType: formData.get("eventType"),
-        eventDate: formData.get("eventDate"),
-        guests: formData.get("guests"),
-        budgetMin: formData.get("budgetMin"),
-        budgetMax: formData.get("budgetMax"),
-        needLocation: formData.get("needLocation") ? "Yes" : "No",
-        area: formData.get("area") || "N/A"
-      };
-
-      emailjs.send("service_l10gqs8", "template_f0z1wbt", data)
-        .then(function(response) {
-          console.log("Email sent successfully:", response);
-          form.reset();
-          document.getElementById('areaInput').style.display = 'none';
-          document.getElementById('popupOverlay').style.display = 'flex'; // Show popup after form submission
-        }, function(error) {
-          console.log("Error sending email:", error);
-        });
-    });
 
     function closePopup() {
       document.getElementById('popupOverlay').style.display = 'none';
@@ -320,18 +425,33 @@
       areaInput.style.display = checkbox.checked ? 'block' : 'none';
     }
 
-    window.addEventListener('click', function (event) {
-      if (!event.target.closest('.menu-icon') && !event.target.closest('#menu-list')) {
-        document.getElementById('menu-list').classList.remove('show');
+    window.addEventListener('click', function(event) {
+      if (event.target == document.getElementById('popupOverlay')) {
+        closePopup();
       }
     });
+
+    // Toggle menu visibility
+    function toggleMenu() {
+      const menuList = document.getElementById("menu-list");
+      menuList.classList.toggle("show");
+    }
+
+    // Fade effect for page navigation
+    function fadeOut(event) {
+      event.preventDefault();
+      document.body.style.opacity = '0';
+      setTimeout(() => {
+        window.location = event.target.href;
+      }, 500);
+    }
   </script>
 
   <!-- Popup Overlay -->
   <div class="popup-overlay" id="popupOverlay">
     <div class="popup">
-      <h2>Thank You!</h2>
-      <p>CFlow Events will contact you as soon as possible.<br>We’re excited to bring your vision to life!</p>
+      <h2>Your Request Has Been Sent!</h2>
+      <p>We will get back to you shortly to confirm the details.</p>
       <button onclick="closePopup()">Close</button>
     </div>
   </div>
