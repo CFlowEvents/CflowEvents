@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Schedule a Meeting</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background-color: black;
+      color: white;
+      text-align: center;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .header {
+      width: 100%;
+      height: 30vh;
+      background: url('images/logo.jpg') no-repeat center center;
+      background-size: contain;
+    }
+
+    .menu-icon {
+      position: fixed;
+      top: 10px;
+      left: 20px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      z-index: 20;
+      background: black;
+      padding: 12px 18px;
+      border-radius: 10px;
+      transition: all 0.3s ease-in-out;
+      backdrop-filter: blur(5px);
+    }
+
+    .menu-list {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.95);
+      box-shadow: 4px 0 6px rgba(255, 255, 255, 0.2);
+      z-index: 10;
+      padding-top: 60px;
+      text-align: left;
+      transition: left 0.5s ease-in-out, opacity 0.5s;
+      opacity: 0;
+    }
+
+    .menu-list.show {
+      left: 0;
+      opacity: 1;
+    }
+
+    .menu-list a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      font-size: 18px;
+      border-bottom: 1px solid white;
+      transition: background-color 0.3s, opacity 0.3s;
+    }
+
+    .menu-list a:hover {
+      background-color: #f0a500;
+      opacity: 0.8;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin: 40px 0 20px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      animation: slideIn 0.8s ease forwards;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1em;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    select option {
+      background-color: black;
+      color: white;
+    }
+
+    input::placeholder {
+      color: #ccc;
+    }
+
+    .checkbox-group {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      transform: scale(1.8);
+      margin-left: 10px;
+    }
+
+    .conditional {
+      display: none;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 12px;
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #f0a500;
+      color: white;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .popup {
+      background-color: white;
+      color: black;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+      transform: translateY(30px);
+      animation: slideUp 0.5s ease forwards;
+    }
+
+    @keyframes slideUp {
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .popup h2 {
+      margin-top: 0;
+    }
+
+    .popup button {
+      margin-top: 20px;
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    .popup button:hover {
+      background-color: #f0a500;
+      color: black;
+    }
+  </style>
+</head>
+<body class="fade-in">
+  <div class="header"></div>
+
+  <!-- Menu Button -->
+  <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+  <!-- Menu List -->
+  <div class="menu-list" id="menu-list">
+    <a href="index.html" onclick="fadeOut(event)">Home</a>
+    <a href="about-us.html" onclick="fadeOut(event)">About Us</a>
+    <a href="contact.html" onclick="fadeOut(event)">Contact Us</a>
+    <a href="schedule.html" onclick="fadeOut(event)">Schedule a meeting</a>
+  </div>
+
+  <h1>Schedule a Meeting</h1>
+
+  <form id="meetingForm">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" placeholder="Your full name" required />
+
+    <label for="eventType">Type of Event</label>
+    <select id="eventType" name="eventType" required>
+      <option value="" disabled selected>Select an event type</option>
+      <option>Wedding</option>
+      <option>Proposal</option>
+      <option>Engagement</option>
+      <option>Birthday</option>
+      <option>Gender Reveal</option>
+      <option>Baptism</option>
+      <option>Other</option>
+    </select>
+
+    <label for="eventDate">Preferred Event Date</label>
+    <input type="date" id="eventDate" name="eventDate" required />
+
+    <label for="guests">Estimated Number of Guests</label>
+    <input type="number" id="guests" name="guests" placeholder="e.g., 150" min="1" required />
+
+    <label for="budget">Budget Range (USD)</label>
+    <div style="display: flex; gap: 10px;">
+      <input type="number" id="budgetMin" name="budgetMin" placeholder="Min" min="0" required />
+      <input type="number" id="budgetMax" name="budgetMax" placeholder="Max" min="0" required />
+    </div>
+
+    <div class="checkbox-group">
+      <label for="needLocation">Need us to find a location?</label>
+      <input type="checkbox" id="needLocation" name="needLocation" onchange="toggleArea()" />
+    </div>
+
+    <div class="conditional" id="areaInput">
+      <label for="area">Preferred Area in Lebanon</label>
+      <input type="text" id="area" name="area" placeholder="e.g., Byblos, Batroun" />
+    </div>
+
+    <button type="submit">Submit Request</button>
+  </form>
+
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+  <script>
+    (function() {
+      emailjs.init("byCf4TPG5UL7yT0JT"); // Use your EmailJS public key here
+    })();
+
+    document.getElementById("meetingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+
+      const data = {
+        name: formData.get("name"),
+        eventType: formData.get("eventType"),
+        eventDate: formData.get("eventDate"),
+        guests: formData.get("guests"),
+        budgetMin: formData.get("budgetMin"),
+        budgetMax: formData.get("budgetMax"),
+        needLocation: formData.get("needLocation") ? "Yes" : "No",
+        area: formData.get("area") || "N/A"
+      };
+
+      emailjs.send("service_l10gqs8", "template_f0z1wbt", data)
+        .then(function(response) {
+          console.log("Email sent successfully:", response);
+          form.reset();
+          document.getElementById('areaInput').style.display = 'none';
+          document.getElementById('popupOverlay').style.display = 'flex'; // Show popup after form submission
+        }, function(error) {
+          console.log("Error sending email:", error);
+        });
+    });
+
+    function closePopup() {
+      document.getElementById('popupOverlay').style.display = 'none';
+    }
+
+    function toggleArea() {
+      const checkbox = document.getElementById('needLocation');
+      const areaInput = document.getElementById('areaInput');
+      areaInput.style.display = checkbox.checked ? 'block' : 'none';
+    }
+
+    window.addEventListener('click', function (event) {
+      if (!event.target.closest('.menu-icon') && !event.target.closest('#menu-list')) {
+        document.getElementById('menu-list').classList.remove('show');
+      }
+    });
+  </script>
+
+  <!-- Popup Overlay -->
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+      <h2>Thank You!</h2>
+      <p>CFlow Events will contact you as soon as possible.<br>We’re excited to bring your vision to life!</p>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
+</body>
+</html>
