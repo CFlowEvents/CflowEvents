@@ -4,15 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Schedule a Meeting</title>
+  <!-- Include intl-tel-input CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
   <style>
     /* Global styles */
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
       margin: 0;
+      padding: 0;
       font-family: 'Georgia', serif;
       background-color: black;
       color: white;
       text-align: center;
       transition: opacity 0.5s ease-in-out;
+      overflow-x: hidden;
     }
 
     .fade-in {
@@ -85,11 +93,12 @@
     h1 {
       font-size: 2em;
       margin: 40px 0 20px;
+      padding: 0 15px;
     }
 
     form {
       max-width: 600px;
-      margin: auto;
+      margin: 0 auto;
       padding: 30px;
       background-color: rgba(255, 255, 255, 0.05);
       border-radius: 20px;
@@ -111,13 +120,21 @@
 
     input, select, textarea {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
+      padding: 12px;
+      margin-top: 8px;
       border-radius: 10px;
       border: none;
       font-size: 1em;
       background: rgba(255, 255, 255, 0.1);
       color: white;
+      -webkit-appearance: none;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
     }
 
     select option {
@@ -132,8 +149,8 @@
     /* Date input fix */
     input[type="date"] {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
+      padding: 12px;
+      margin-top: 8px;
       border-radius: 10px;
       border: none;
       font-size: 1em;
@@ -145,22 +162,88 @@
     .budget-range {
       display: flex;
       gap: 10px;
+      align-items: center;
     }
     .budget-range input {
       width: 48%;
     }
+    
+    .budget-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .budget-option {
+      display: flex;
+      align-items: center;
+    }
+    
+    .budget-option input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #f0a500;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .budget-option input[type="checkbox"]:checked {
+      background-color: #f0a500;
+    }
+
+    .budget-option input[type="checkbox"]:checked::after {
+      content: "✓";
+      position: absolute;
+      color: black;
+      font-size: 16px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
     /* Checkbox styles */
     .checkbox-group {
+      color: #FFFFFF;
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 30px;
+      padding: 10px 0;
     }
 
     .checkbox-group input[type="checkbox"] {
-      transform: scale(1.8);
+      width: 20px;
+      height: 20px;
       margin-left: 10px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #f0a500;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .checkbox-group input[type="checkbox"]:checked {
+      background-color: #f0a500;
+    }
+
+    .checkbox-group input[type="checkbox"]:checked::after {
+      content: "✓";
+      position: absolute;
+      color: black;
+      font-size: 16px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .conditional {
@@ -171,7 +254,7 @@
     button {
       margin-top: 30px;
       width: 100%;
-      padding: 12px;
+      padding: 15px;
       background-color: white;
       color: black;
       border: none;
@@ -179,6 +262,7 @@
       font-size: 1em;
       cursor: pointer;
       transition: all 0.3s ease;
+      font-weight: bold;
     }
 
     button:hover {
@@ -198,13 +282,11 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.8);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      animation: fadeIn 0.5s ease-in-out;
     }
 
     .popup {
@@ -215,19 +297,16 @@
       max-width: 400px;
       width: 90%;
       text-align: center;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-      transform: translateY(30px);
-      animation: slideUp 0.5s ease forwards;
-    }
-
-    @keyframes slideUp {
-      to {
-        transform: translateY(0);
-      }
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
     }
 
     .popup h2 {
       margin-top: 0;
+      color: #000;
+    }
+
+    .popup p {
+      color: #333;
     }
 
     .popup button {
@@ -246,16 +325,48 @@
       color: black;
     }
 
+    /* Phone input specific styles */
+    #phone {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1em;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    /* Fix for intl-tel-input wrapper */
+    .iti {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .iti__selected-flag {
+      padding: 0 6px 0 8px;
+    }
+
+    .iti__country-list {
+      background-color: #333;
+      color: white;
+    }
+
     /* Media query for mobile responsiveness */
     @media (max-width: 768px) {
+      body {
+        padding: 0 15px;
+      }
+      
       form {
         padding: 20px;
-        margin: 0 15px;
+        width: 100%;
       }
 
       .checkbox-group {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 25px;
       }
 
       label {
@@ -269,22 +380,37 @@
 
       h1 {
         font-size: 1.5em;
-        margin: 30px 15px 15px;
+        margin: 30px 0 15px;
       }
 
       input, select, textarea {
-        padding: 12px;
+        padding: 14px;
         font-size: 16px;
       }
 
       button {
-        padding: 15px;
+        padding: 16px;
         font-size: 16px;
       }
 
       .menu-list a {
         padding: 18px 20px;
         font-size: 16px;
+      }
+      
+      .budget-range {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .budget-range input {
+        width: 100%;
+      }
+      
+      .checkbox-group input[type="checkbox"],
+      .budget-option input[type="checkbox"] {
+        width: 24px;
+        height: 24px;
       }
     }
 
@@ -294,8 +420,13 @@
         font-size: 16px;
       }
       
-      input[type="date"] {
+      input[type="date"], 
+      input[type="tel"] {
         min-height: 44px;
+      }
+      
+      select {
+        padding-right: 35px;
       }
     }
   </style>
@@ -317,10 +448,13 @@
   <h1>Schedule a Meeting</h1>
 
   <form id="meetingForm">
-    <label for="name">Full Name</label>
+    <label for="name">Full Name*</label>
     <input type="text" id="name" name="name" placeholder="Your full name" required />
 
-    <label for="eventType">Type of Event</label>
+    <label for="phone">Phone Number*</label>
+    <input type="tel" id="phone" name="phone" placeholder="Your phone number" required />
+    
+    <label for="eventType">Type of Event*</label>
     <select id="eventType" name="eventType" required>
       <option value="" disabled selected>Select an event type</option>
       <option>Wedding</option>
@@ -332,20 +466,28 @@
       <option>Other</option>
     </select>
 
-    <label for="eventDate">Preferred Event Date</label>
+    <label for="eventDate">Event Date*</label>
     <input type="date" id="eventDate" name="eventDate" required />
 
-    <label for="guests">Estimated Number of Guests</label>
+    <label for="guests">Estimated Number of Guests*</label>
     <input type="number" id="guests" name="guests" placeholder="e.g., 150" min="1" required />
 
     <label for="budget">Budget Range (USD)</label>
-    <div class="budget-range">
-      <input type="number" id="budgetMin" name="budgetMin" placeholder="Min" min="0" required />
-      <input type="number" id="budgetMax" name="budgetMax" placeholder="Max" min="0" required />
+    <p class="subheader">Please specify your budget range to help us tailor our services to your needs.</p>
+    
+    <div class="budget-options">
+      <div class="budget-range" style="display: flex;">
+        <input type="number" id="budgetMin" name="budgetMin" placeholder="Min" min="0" />
+        <input type="number" id="budgetMax" name="budgetMax" placeholder="Max" min="0" />
+      </div>
+      <div class="budget-option">
+        <input type="checkbox" id="budgetNoSpecific" name="budgetNoSpecific">
+        <label for="budgetNoSpecific" style="margin:0;">No specific budget</label>
+      </div>
     </div>
 
     <div class="checkbox-group">
-      <label for="needLocation">Need us to find a location?</label>
+      <label for="needLocation" style="margin:0;">Need us to find a location?</label>
       <input type="checkbox" id="needLocation" name="needLocation" onchange="toggleArea()" />
     </div>
 
@@ -357,88 +499,73 @@
     <button type="submit" id="submitButton">Submit Request</button>
   </form>
 
-  <!-- Load EmailJS SDK -->
+  <!-- Load required scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.15/js/intlTelInput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.15/js/utils.js"></script>
   
   <script>
-    // Initialize EmailJS
-    (function() {
-      emailjs.init('byCf4TPG5UL7yT0JT'); // Your public key
-      
-      document.getElementById("meetingForm").addEventListener("submit", function(e) {
-        e.preventDefault();
-        
-        const form = e.target;
-        const submitButton = document.getElementById('submitButton');
-        const originalButtonText = submitButton.textContent;
-        
-        // Show loading state
-        submitButton.disabled = true;
-        submitButton.textContent = "Sending...";
-        
-        // Get form data
-        const formData = new FormData(form);
-        const data = {
-            to_email:"cflow.event@gmail.com",
-          name: formData.get("name"),
-          eventType: formData.get("eventType"),
-          eventDate: formData.get("eventDate"),
-          guests: formData.get("guests"),
-          budgetMin: formData.get("budgetMin"),
-          budgetMax: formData.get("budgetMax"),
-          needLocation: formData.get("needLocation") ? "Yes" : "No",
-          area: formData.get("area") || "N/A"
-        };
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize phone input
+    var phoneInput = document.querySelector("#phone");
+    var iti = window.intlTelInput(phoneInput, {
+      initialCountry: "LB",
+      separateDialCode: true,
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.15/js/utils.js",
+      customPlaceholder: function(selectedCountryPlaceholder, selectedCountryData) {
+        return "e.g. " + selectedCountryPlaceholder;
+      }
+    });
 
-        // Validate required fields
-        if (!data.name || !data.eventType || !data.eventDate || !data.guests || !data.budgetMin || !data.budgetMax) {
-          alert("Please fill out all required fields.");
-          submitButton.disabled = false;
-          submitButton.textContent = originalButtonText;
-          return;
-        }
+    // Custom Lebanese phone validation
+    
 
-        // Send email
-        emailjs.send("service_l10gqs8", "template_f0z1wbt", data)
-          .then(function(response) {
-            console.log("Email sent successfully:", response);
-            form.reset();
-            document.getElementById('areaInput').style.display = 'none';
-            document.getElementById('popupOverlay').style.display = 'flex';
-          }, function(error) {
-            console.log("Error sending email:", error);
-            alert("There was an error sending your request. Please try again later.");
-          })
-          .finally(function() {
-            submitButton.disabled = false;
-            submitButton.textContent = originalButtonText;
-          });
-      });
-    })();
-
-    function closePopup() {
-      document.getElementById('popupOverlay').style.display = 'none';
+    // Toggle budget range visibility
+    function toggleBudgetInputs() {
+      const budgetRange = document.querySelector('.budget-range');
+      const budgetNoSpecific = document.getElementById('budgetNoSpecific');
+      budgetRange.style.display = budgetNoSpecific.checked ? 'none' : 'flex';
     }
 
+    // Initialize budget toggle
+    document.getElementById('budgetNoSpecific').addEventListener('change', toggleBudgetInputs);
+    toggleBudgetInputs(); // Set initial state
+
+    // Toggle area input visibility
     function toggleArea() {
       const checkbox = document.getElementById('needLocation');
       const areaInput = document.getElementById('areaInput');
       areaInput.style.display = checkbox.checked ? 'block' : 'none';
     }
+    document.getElementById('needLocation').addEventListener('change', toggleArea);
 
+    // Popup functions
+    function showPopup() {
+      document.getElementById('popupOverlay').style.display = 'flex';
+    }
+
+    function closePopup() {
+      document.getElementById('popupOverlay').style.display = 'none';
+    }
+
+    // Connect popup close button
+    document.querySelector('.popup button').addEventListener('click', closePopup);
+
+    // Close popup when clicking overlay
     window.addEventListener('click', function(event) {
-      if (event.target == document.getElementById('popupOverlay')) {
+      if (event.target === document.getElementById('popupOverlay')) {
         closePopup();
       }
     });
 
-    // Toggle menu visibility
+    // Menu toggle
     function toggleMenu() {
       const menuList = document.getElementById("menu-list");
       menuList.classList.toggle("show");
     }
+    document.querySelector('.menu-icon').addEventListener('click', toggleMenu);
 
-    // Fade effect for page navigation
+    // Page transition
     function fadeOut(event) {
       event.preventDefault();
       document.body.style.opacity = '0';
@@ -446,6 +573,82 @@
         window.location = event.target.href;
       }, 500);
     }
+    document.querySelectorAll('.menu-list a').forEach(link => {
+      link.addEventListener('click', fadeOut);
+    });
+
+    // Initialize EmailJS
+    emailjs.init('byCf4TPG5UL7yT0JT');
+    
+    document.getElementById("meetingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const submitButton = document.getElementById('submitButton');
+      const originalButtonText = submitButton.textContent;
+      const phoneNumber = iti.getNumber();
+      
+      // Show loading state
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending...";
+      
+      // Get form data
+      const formData = new FormData(form);
+      const budgetNoSpecific = document.getElementById('budgetNoSpecific').checked;
+      
+      const data = {
+        to_email: "cflow.event@gmail.com",
+        name: formData.get("name"),
+        phone: phoneNumber,
+        eventType: formData.get("eventType"),
+        eventDate: formData.get("eventDate"),
+        guests: formData.get("guests"),
+        budgetNoSpecific: budgetNoSpecific ? "Yes" : "No",
+        budgetMin: budgetNoSpecific ? 'N/A' : formData.get("budgetMin"),
+        budgetMax: budgetNoSpecific ? 'N/A' : formData.get("budgetMax"),
+        needLocation: formData.get("needLocation") ? "Yes" : "No",
+        area: formData.get("area") || "N/A"
+      };
+
+      // Validate required fields
+      if (!data.name || !data.phone || !data.eventType || !data.eventDate || !data.guests) {
+        alert("Please fill out all required fields marked with *");
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+        return;
+      }
+
+      // Validate phone number
+     
+
+      if (!budgetNoSpecific && (!data.budgetMin || !data.budgetMax)) {
+        alert("Please enter both minimum and maximum budget values");
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+        return;
+      }
+
+      // Send email
+      emailjs.send("service_l10gqs8", "template_f0z1wbt", data)
+        .then(function(response) {
+          console.log("Email sent successfully:", response);
+          form.reset();
+          document.getElementById('areaInput').style.display = 'none';
+          document.getElementById('needLocation').checked = false;
+          document.getElementById('budgetNoSpecific').checked = false;
+          toggleBudgetInputs();
+          iti.setNumber("");
+          showPopup();
+        }, function(error) {
+          console.log("Error sending email:", error);
+          alert("There was an error sending your request. Please try again later.");
+        })
+        .finally(function() {
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+        });
+    });
+  });
   </script>
 
   <!-- Popup Overlay -->
@@ -453,7 +656,7 @@
     <div class="popup">
       <h2>Your Request Has Been Sent!</h2>
       <p>We will get back to you shortly to confirm the details.</p>
-      <button onclick="closePopup()">Close</button>
+      <button>Close</button>
     </div>
   </div>
 </body>
