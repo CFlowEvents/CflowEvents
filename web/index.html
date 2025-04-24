@@ -63,19 +63,22 @@ font-family: 'Georgia', serif;            margin: 0;
         .menu-list {
             position: fixed;
             top: 0;
-            left: 0;
+            left: -250px; /* Hidden by default */
             width: 250px;
             height: 100vh;
-            background-color: black;
+            background-color: rgba(0, 0, 0, 0.95);
             box-shadow: 4px 0 6px rgba(255, 255, 255, 0.2);
             z-index: 10;
             padding-top: 60px;
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(-100%);
+            text-align: left;
+            transition: left 0.5s ease-in-out, opacity 0.5s;
+            opacity: 0;
         }
 
+        /* Show Menu */
         .menu-list.show {
-            transform: translateX(0);
+            left: 0;
+            opacity: 1;
         }
 
         /* Menu Items */
@@ -85,14 +88,13 @@ font-family: 'Georgia', serif;            margin: 0;
             text-decoration: none;
             padding: 15px 20px;
             font-size: 18px;
-            font-weight: bold;
-            text-transform: uppercase;
             border-bottom: 1px solid white;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, opacity 0.3s;
         }
 
         .menu-list a:hover {
             background-color: #f0a500;
+            opacity: 0.8;
         }
 
         /* Fade-in Content Styling */
@@ -233,8 +235,9 @@ font-family: 'Georgia', serif;            margin: 0;
     <div class="menu-list" id="menu-list">
         <a href="index.html" onclick="fadeOut()">Home</a>
         <a href="about-us.html" onclick="fadeOut()">About Us</a>
-        <a href="contact.html" onclick="fadeOut()">Contact Us</a>
+		<a href="contact.html" onclick="fadeOut()">Contact Us</a>
         <a href="schedule.html" onclick="fadeOut()">Schedule a meeting</a>
+
     </div>
 
     <!-- Title Section -->
