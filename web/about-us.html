@@ -139,6 +139,28 @@
     color: black;
     border: 1px solid white;
 }
+/* WhatsApp Widget Styling */
+.whatsapp-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25D366;
+    border-radius: 50%;
+    padding: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.3s;
+    z-index: 1000;
+}
+
+.whatsapp-widget:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-widget img {
+    width: 40px;
+    height: 40px;
+}
 
     </style>
 </head>
@@ -175,6 +197,10 @@
             <button onclick="toggleMute()" id="mute-button">Unmute</button>
         </div>
     </div>
+<!-- WhatsApp Widget -->
+<a href="https://wa.me/96181282320" target="_blank" class="whatsapp-widget">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+</a>
 
     <script>
         const video = document.getElementById('about-video');
